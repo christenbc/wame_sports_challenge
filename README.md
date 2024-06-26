@@ -1,16 +1,31 @@
-# wame_sports_challenge_christen
+# Wame Sports Challenge
 
-A new Flutter project.
+> The challenge involves creating a Flutter application that consumes a REST API to fetch and
+> display data on the screen.
 
-## Getting Started
+> The first thing you should do is select one of your choice (you have a
+> wide variety available at https://rapidapi.com/). Choose one that effectively showcases your
+> skills. The selected API must be accessible for free, although it is OK if it requires registration.
 
-This project is a starting point for a Flutter application.
+For my use case, I will choose [GeoDB Cities](https://rapidapi.com/wirefreethought/api/geodb-cities). This API has a free tier which, at the moment of the creation, I intend to display a list of all the countries in the main screen, each element displayed will redirect to a detailed screen with additional information.
 
-A few resources to get you started if this is your first Flutter project:
+## Submission Criteria
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> Your project must meet the following criteria:
+>
+> - [ ] Developed using Flutter, it should be operable on mobile devices, ideally on both Android
+>       and iOS. If access is limited to one of these platforms, then it should work on the one
+>       available.
+> - [ ] Upon launch, the app must display a list of items fetched from the API. Selecting an >item should open a detail screen showing more information about it.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Evaluation
+
+> The following aspects of your submission will be assessed:
+>
+> - [ ] Efficiency in utilizing the remote API, including the application of good methodologies and best practices in data management. An optional cache system for data persistence will be highly regarded.
+> - [ ] The application of best practices, clean architecture, and SOLID principles in your solution.
+> - [ ] State management in the user interface. Use the approach you are most comfortable with,
+>       ensuring a clear distinction between state management and visual presentation.
+> - [ ] The quality of the code documentation and the inclusion of a README.md file that
+>       provides relevant information about the project. If the project is delivered through a GIT
+>       repository, the organization of commits will also be evaluated.
