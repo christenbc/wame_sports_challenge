@@ -16,7 +16,7 @@ class RapidAPI {
 
   /// Retrieves a first batch of countries listed by the API
   static Future<List<Country>> fetchCountries() async {
-    const int batchSize = 2;
+    const int batchSize = 5;
     const String url = '$_baseUrl/countries?limit=$batchSize';
 
     final response = await http.get(Uri.parse(url), headers: _headers);
