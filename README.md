@@ -11,6 +11,8 @@ For my use case, I will choose [GeoDB Cities](https://rapidapi.com/wirefreethoug
 
 The state management and separation of concerns is addressed by following BLoC pattern. Also, since it is intended to achieve a successful implementation of data persistence, the strategy therefore is leveraging the use of _Hydrated BLoC_ library.
 
+_Equatable_ library is used to compare between instances of a class without the hassle of having to do the boilerplate of overriding equality and hashCode of every class.
+
 ## Submission Criteria
 
 > Your project must meet the following criteria:
