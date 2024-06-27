@@ -9,6 +9,8 @@
 
 For my use case, I will choose [GeoDB Cities](https://rapidapi.com/wirefreethought/api/geodb-cities). This API has a free tier which, at the moment of the creation, I intend to display a list of all the countries in the main screen, each element displayed will redirect to a detailed screen with additional information.
 
+The state management and separation of concerns is addressed by following BLoC pattern. Also, since it is intended to achieve a successful implementation of data persistence, the strategy therefore is leveraging the use of _Hydrated BLoC_ library.
+
 ## Submission Criteria
 
 > Your project must meet the following criteria:
@@ -16,7 +18,7 @@ For my use case, I will choose [GeoDB Cities](https://rapidapi.com/wirefreethoug
 > - [ ] Developed using Flutter, it should be operable on mobile devices, ideally on both Android
 >       and iOS. If access is limited to one of these platforms, then it should work on the one
 >       available.
-> - [ ] Upon launch, the app must display a list of items fetched from the API. Selecting an >item should open a detail screen showing more information about it.
+> - [ ] Upon launch, the app must display a list of items fetched from the API. Selecting an item should open a detail screen showing more information about it.
 
 ## Evaluation
 
