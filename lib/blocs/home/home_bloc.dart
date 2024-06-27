@@ -15,14 +15,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onCountriesFetched(FetchCountries event, Emitter<HomeState> emit) async {
+    if (state.hasReachedMax) return;
     try {
       if (state.status == HomeStatus.initial) {
         final countries = await RapidAPI.fetchCountries();
         return emit(state.copyWith(
           status: HomeStatus.success,
           countries: countries,
+          hasReachedMax: false,
         ));
       }
+      final countries = await RapidAPI.fetchCountries(offset: state.countries.length);
+      emit(countries.isEmpty
+          ? state.copyWith(hasReachedMax: true)
+          : state.copyWith(
+              status: HomeStatus.success,
+              countries: List.of(state.countries)..addAll(countries),
+              hasReachedMax: false,
+            ));
     } catch (_) {
       emit(state.copyWith(status: HomeStatus.failure));
     }

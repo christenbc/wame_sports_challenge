@@ -14,10 +14,14 @@ class RapidAPI {
     'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com'
   };
 
-  /// Retrieves a first batch of countries listed by the API
-  static Future<List<Country>> fetchCountries() async {
+  /// Retrieves a batch of countries listed by the API
+  static Future<List<Country>> fetchCountries({int? offset}) async {
     const int batchSize = 5;
-    const String url = '$_baseUrl/countries?limit=$batchSize';
+    String url = '$_baseUrl/countries?limit=$batchSize';
+
+    if (offset != null) {
+      url += '&offset=$offset';
+    }
 
     final response = await http.get(Uri.parse(url), headers: _headers);
 
@@ -30,8 +34,6 @@ class RapidAPI {
       throw Exception('Failed to load countries');
     }
   }
-
-  // TODO: Implement another function to paginate the rest of the countries
 
   /// Provided a [country], get detailed information about it.
   static Future<CountryDetails> fetchCountryDetails({required Country country}) async {
