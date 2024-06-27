@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
 
   bool get _isBottom {
     if (!_scrollController.hasClients) return false;
-    if (!_scrollController.position.outOfRange) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
