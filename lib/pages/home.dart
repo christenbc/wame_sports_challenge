@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wame_sports_challenge_christen/api/api.dart';
 import 'package:wame_sports_challenge_christen/blocs/blocs.dart';
 import 'package:wame_sports_challenge_christen/models/models.dart';
+import 'package:wame_sports_challenge_christen/pages/pages.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.title});
@@ -37,17 +38,36 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             itemBuilder: (context, index) {
               final country = countries[index];
+              final countryName = country.name ?? '';
+              final countryCode = country.code ?? '';
               return SizedBox(
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Card(
-                  child: ListTile(
-                    title: Text(
-                      country.name ?? '',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    trailing: Text(
-                      country.code ?? '',
-                      style: Theme.of(context).textTheme.titleLarge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider<DetailBloc>(
+                            create: (context) => DetailBloc()..add(FetchCountryDetails(country: country)),
+                            child: DetailPage(title: countryName),
+                          ),
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      title: Text(
+                        countryName,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      trailing: Text(
+                        countryCode,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
                   ),
                 ),
