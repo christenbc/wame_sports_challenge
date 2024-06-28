@@ -14,10 +14,10 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
   Future<void> _onCountryDetailsFetched(FetchCountryDetails event, Emitter<DetailState> emit) async {
     try {
       if (state.status == DetailStatus.initial) {
-        final countries = await RapidAPI.fetchCountryDetails(country: event.country);
+        final countryDetails = await RapidAPI.fetchCountryDetails(country: event.country);
         return emit(state.copyWith(
           status: DetailStatus.success,
-          countryDetails: countries,
+          countryDetails: countryDetails,
         ));
       }
     } catch (e) {
