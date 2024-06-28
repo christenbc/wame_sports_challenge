@@ -26,7 +26,7 @@ _Equatable_ library is used to compare between instances of a class without the 
 
 > The following aspects of your submission will be assessed:
 >
-> - [ ] Efficiency in utilizing the remote API, including the application of good methodologies and best practices in data management. An optional cache system for data persistence will be highly regarded.
+> - [x] Efficiency in utilizing the remote API, including the application of good methodologies and best practices in data management. An optional cache system for data persistence will be highly regarded.
 > - [x] The application of best practices, clean architecture, and SOLID principles in your solution.
 > - [x] State management in the user interface. Use the approach you are most comfortable with,
 >       ensuring a clear distinction between state management and visual presentation.
