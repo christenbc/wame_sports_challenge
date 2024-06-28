@@ -52,8 +52,8 @@ class _HomePageState extends State<HomePage> {
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state.status == HomeStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Countries could not be fetched'),
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.failure.message ?? 'Countries could not be fetched'),
               backgroundColor: Colors.red,
             ));
           } else if (state.status == HomeStatus.success) {

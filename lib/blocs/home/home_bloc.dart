@@ -49,8 +49,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               countries: List.of(state.countries)..addAll(countries),
               hasReachedMax: false,
             ));
-    } catch (_) {
-      emit(state.copyWith(status: HomeStatus.failure));
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeStatus.failure,
+        failure: Failure(message: 'Countries could not be fetched. Reason: $e'),
+      ));
     }
   }
 }

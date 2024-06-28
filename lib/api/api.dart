@@ -25,13 +25,14 @@ class RapidAPI {
 
     final response = await http.get(Uri.parse(url), headers: _headers);
 
+    final dynamic rawData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      final dynamic rawData = jsonDecode(response.body);
       final List<dynamic> data = rawData["data"];
       final countries = data.map((countryData) => Country.fromJson(countryData)).toList();
       return countries;
     } else {
-      throw Exception('Failed to load countries');
+      final dynamic message = rawData["message"];
+      throw Exception(message);
     }
   }
 
@@ -41,13 +42,14 @@ class RapidAPI {
 
     final response = await http.get(Uri.parse(url), headers: _headers);
 
+    final dynamic rawData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      final dynamic rawData = jsonDecode(response.body);
       final dynamic data = rawData["data"];
       final countryDetails = CountryDetails.fromJson(data);
       return countryDetails;
     } else {
-      throw Exception('Failed to load countries');
+      final dynamic message = rawData["message"];
+      throw Exception(message);
     }
   }
 }

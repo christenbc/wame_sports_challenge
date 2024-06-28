@@ -20,8 +20,11 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
           countryDetails: countries,
         ));
       }
-    } catch (_) {
-      emit(state.copyWith(status: DetailStatus.failure));
+    } catch (e) {
+      emit(state.copyWith(
+        status: DetailStatus.failure,
+        failure: Failure(message: 'Country\'s details could not be fetched. Reason: $e'),
+      ));
     }
   }
 }

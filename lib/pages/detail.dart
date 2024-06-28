@@ -21,7 +21,7 @@ class DetailPage extends StatelessWidget {
           listener: (context, state) {
             if (state.status == DetailStatus.failure) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('$title\'s details  could not be fetched'),
+                content: Text(state.failure.message ?? '$title\'s details  could not be fetched'),
                 backgroundColor: Colors.red,
               ));
             } else if (state.status == DetailStatus.success) {
