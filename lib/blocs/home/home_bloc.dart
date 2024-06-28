@@ -12,7 +12,7 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 // The [basic](https://rapidapi.com/wirefreethought/api/geodb-cities/pricing) tier of the selected API only allows 1 request per second
-const throttleDuration = Duration(milliseconds: 1000);
+const throttleDuration = Duration(milliseconds: 1500);
 
 // This will prevent spamming the API from the UI.
 // Any events added while an event is processing are ignored.
