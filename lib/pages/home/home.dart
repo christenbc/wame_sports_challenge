@@ -69,17 +69,23 @@ class _HomePageState extends State<HomePage> {
           return state.status == HomeStatus.initial
               ? const Center(child: CircularProgressIndicator())
               : state.status == HomeStatus.failure
-                  ? const Center(child: Text('Failed to fetch countries'))
-                  : ListView.builder(
-                      controller: _scrollController,
-                      itemCount: countries.length,
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final country = countries[index];
-                        return index >= countries.length
-                            ? const CircularProgressIndicator.adaptive()
-                            : CountryCard(country: country);
-                      },
+                  ? Center(child: Text(state.failure.message ?? 'Countries could not be fetched'))
+                  : RefreshIndicator.adaptive(
+                      onRefresh: () => Future<void>.delayed(
+                        const Duration(seconds: 1),
+                        () => context.read<HomeBloc>().add(FetchCountries()),
+                      ),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: countries.length,
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          final country = countries[index];
+                          return index >= countries.length
+                              ? const CircularProgressIndicator.adaptive()
+                              : CountryCard(country: country);
+                        },
+                      ),
                     );
         },
       ),
