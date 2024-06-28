@@ -1,4 +1,6 @@
-class CountryDetails {
+import 'package:equatable/equatable.dart';
+
+class CountryDetails extends Equatable {
   final String? capital;
   final String? flagImageUri;
   final String? callingCode;
@@ -17,4 +19,14 @@ class CountryDetails {
         callingCode: json["callingCode"],
         numRegions: json["numRegions"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "capital": capital,
+        "flagImageUri": flagImageUri,
+        "callingCode": callingCode,
+        "numRegions": numRegions,
+      };
+
+  @override
+  List<Object?> get props => [capital, flagImageUri, callingCode, numRegions];
 }

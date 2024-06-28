@@ -1,4 +1,6 @@
-class Country {
+import 'package:equatable/equatable.dart';
+
+class Country extends Equatable {
   final String? name;
   final String? code;
 
@@ -11,4 +13,12 @@ class Country {
         name: json["name"],
         code: json["code"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "code": code,
+      };
+
+  @override
+  List<Object?> get props => [name, code];
 }

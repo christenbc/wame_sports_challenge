@@ -22,7 +22,7 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
     on<FetchCountries>(
       _onCountriesFetched,
@@ -54,6 +54,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         status: HomeStatus.failure,
         failure: Failure(message: 'Countries could not be fetched. Reason: $e'),
       ));
+    }
+  }
+
+  @override
+  HomeState? fromJson(Map<String, dynamic> json) {
+    try {
+      return HomeState(
+        countries: (json['countries'] as List).map((e) => Country.fromJson(e)).toList(),
+        hasReachedMax: json['hasReachedMax'] as bool,
+        status: HomeStatus.values[json['status'] as int],
+        failure: Failure(message: json['failure_message'] as String),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(HomeState state) {
+    try {
+      return {
+        'countries': state.countries.map((e) => e.toJson()).toList(),
+        'hasReachedMax': state.hasReachedMax,
+        'status': state.status.index,
+        'failure_message': state.failure.message,
+      };
+    } catch (_) {
+      return null;
     }
   }
 }
