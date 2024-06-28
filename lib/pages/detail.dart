@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wame_sports_challenge_christen/blocs/blocs.dart';
 
 class DetailPage extends StatelessWidget {
+  /// An page which displays additional information about the country
   const DetailPage({super.key, required this.title});
 
   final String title;
@@ -35,6 +36,7 @@ class DetailPage extends StatelessWidget {
             final flagUrl = countryDetails?.flagImageUri;
             return Column(
               children: [
+                // TODO: The following 3 next ListTiles could be refactored
                 ListTile(
                   title: const Text('Capital'),
                   trailing: Text(countryDetails?.capital ?? ''),

@@ -17,19 +17,19 @@ _Equatable_ library is used to compare between instances of a class without the 
 
 > Your project must meet the following criteria:
 >
-> - [ ] Developed using Flutter, it should be operable on mobile devices, ideally on both Android
+> - [x] Developed using Flutter, it should be operable on mobile devices, ideally on both Android
 >       and iOS. If access is limited to one of these platforms, then it should work on the one
 >       available.
-> - [ ] Upon launch, the app must display a list of items fetched from the API. Selecting an item should open a detail screen showing more information about it.
+> - [x] Upon launch, the app must display a list of items fetched from the API. Selecting an item should open a detail screen showing more information about it.
 
 ## Evaluation
 
 > The following aspects of your submission will be assessed:
 >
 > - [ ] Efficiency in utilizing the remote API, including the application of good methodologies and best practices in data management. An optional cache system for data persistence will be highly regarded.
-> - [ ] The application of best practices, clean architecture, and SOLID principles in your solution.
-> - [ ] State management in the user interface. Use the approach you are most comfortable with,
+> - [x] The application of best practices, clean architecture, and SOLID principles in your solution.
+> - [x] State management in the user interface. Use the approach you are most comfortable with,
 >       ensuring a clear distinction between state management and visual presentation.
-> - [ ] The quality of the code documentation and the inclusion of a README.md file that
+> - [x] The quality of the code documentation and the inclusion of a README.md file that
 >       provides relevant information about the project. If the project is delivered through a GIT
 >       repository, the organization of commits will also be evaluated.

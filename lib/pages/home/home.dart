@@ -4,6 +4,8 @@ import 'package:wame_sports_challenge_christen/blocs/blocs.dart';
 import 'package:wame_sports_challenge_christen/pages/home/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
+  /// An infinite scrollable page where countries all around the world
+  /// are listed alphabetically.
   const HomePage({super.key, required this.title});
 
   final String title;

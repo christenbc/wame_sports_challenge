@@ -9,7 +9,3 @@ sealed class HomeEvent extends Equatable {
 }
 
 final class FetchCountries extends HomeEvent {}
-
-final class PaginateCountries extends HomeEvent {
-  // TODO
-}
