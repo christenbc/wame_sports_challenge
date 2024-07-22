@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider<HomeBloc>(
-        create: (context) => HomeBloc()..add(FetchCountries()),
+        create: (context) => HomeBloc(),
         child: const HomePage(title: 'Countries of the world'),
       ),
     );

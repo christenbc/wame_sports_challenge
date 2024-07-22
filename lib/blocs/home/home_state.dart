@@ -1,15 +1,15 @@
 part of 'home_bloc.dart';
 
-enum HomeStatus { initial, success, failure }
+enum HomeStatus { initial, loading, success, failure }
 
 final class HomeState extends Equatable {
-  final List<Country> countries;
+  final List<Country> pagedCountries;
   final bool hasReachedMax;
   final HomeStatus status;
   final Failure failure;
 
   const HomeState({
-    this.countries = const <Country>[],
+    this.pagedCountries = const <Country>[],
     this.hasReachedMax = false,
     this.status = HomeStatus.initial,
     this.failure = const Failure(),
@@ -17,21 +17,21 @@ final class HomeState extends Equatable {
 
   @override
   String toString() {
-    return '''HomeState { status: $status, hasReachedMax: $hasReachedMax, countries: ${countries.length}, failure_message: ${failure.message} }''';
+    return '''HomeState { status: $status, hasReachedMax: $hasReachedMax, failure_message: ${failure.message} }''';
   }
 
   @override
-  List<Object?> get props => [countries, hasReachedMax, status, failure];
+  List<Object?> get props => [pagedCountries, hasReachedMax, status, failure];
 
   HomeState copyWith({
     HomeStatus? status,
-    List<Country>? countries,
+    List<Country>? pagedCountries,
     bool? hasReachedMax,
     Failure? failure,
   }) {
     return HomeState(
       status: status ?? this.status,
-      countries: countries ?? this.countries,
+      pagedCountries: pagedCountries ?? this.pagedCountries,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       failure: failure ?? this.failure,
     );

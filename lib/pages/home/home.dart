@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:wame_sports_challenge_christen/blocs/blocs.dart';
+import 'package:wame_sports_challenge_christen/models/models.dart';
 import 'package:wame_sports_challenge_christen/pages/home/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,31 +17,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _scrollController = ScrollController();
+  final PagingController<int, Country> _pagingController = PagingController(firstPageKey: 0);
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _pagingController.addPageRequestListener((pageKey) => context.read<HomeBloc>().add(FetchCountries(pageKey)));
   }
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isBottom) context.read<HomeBloc>().add(FetchCountries());
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    _pagingController.dispose();
   }
 
   @override
@@ -49,45 +38,33 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: BlocConsumer<HomeBloc, HomeState>(
+      body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state.status == HomeStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.failure.message ?? 'Countries could not be fetched'),
-              backgroundColor: Colors.red,
-            ));
-          } else if (state.status == HomeStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Countries fetched successfully'),
-              duration: Duration(seconds: 1),
-            ));
+          if (state.status == HomeStatus.success) {
+            final isLastPage = state.hasReachedMax;
+            if (isLastPage) {
+              _pagingController.appendLastPage(state.pagedCountries);
+            } else {
+              final nextPageKey = (_pagingController.itemList?.length ?? 0) + state.pagedCountries.length;
+              _pagingController.appendPage(state.pagedCountries, nextPageKey);
+            }
+          } else if (state.status == HomeStatus.failure) {
+            _pagingController.error = state.failure.message;
           }
         },
-        builder: (context, state) {
-          final countries = state.countries;
-
-          return state.status == HomeStatus.initial
-              ? const Center(child: CircularProgressIndicator())
-              : state.status == HomeStatus.failure
-                  ? Center(child: Text(state.failure.message ?? 'Countries could not be fetched'))
-                  : RefreshIndicator.adaptive(
-                      onRefresh: () => Future<void>.delayed(
-                        const Duration(seconds: 1),
-                        () => context.read<HomeBloc>().add(FetchCountries()),
-                      ),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: countries.length,
-                        padding: const EdgeInsets.all(8),
-                        itemBuilder: (context, index) {
-                          final country = countries[index];
-                          return index >= countries.length
-                              ? const CircularProgressIndicator.adaptive()
-                              : CountryCard(country: country);
-                        },
-                      ),
-                    );
-        },
+        child: RefreshIndicator(
+          onRefresh: () => Future.sync(
+            () => _pagingController.refresh(),
+          ),
+          child: PagedListView<int, Country>(
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<Country>(
+              itemBuilder: (context, item, index) => CountryCard(country: item),
+              firstPageErrorIndicatorBuilder: (context) => Text('Error: ${_pagingController.error}'),
+              // newPageErrorIndicatorBuilder: (context) => Text('Error: ${_pagingController.error}'),
+            ),
+          ),
+        ),
       ),
     );
   }

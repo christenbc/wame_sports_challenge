@@ -8,4 +8,11 @@ sealed class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class FetchCountries extends HomeEvent {}
+final class FetchCountries extends HomeEvent {
+  final int pageKey;
+
+  const FetchCountries(this.pageKey);
+
+  @override
+  List<Object> get props => [pageKey];
+}

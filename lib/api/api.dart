@@ -41,11 +41,10 @@ class RapidAPI {
   }
 
   /// Retrieves a batch of countries listed by the API
-  static Future<List<Country>> fetchCountries({int? offset}) async {
-    const int batchSize = 5;
-    String url = '$_baseUrl/countries?limit=$batchSize';
+  static Future<List<Country>> fetchCountries({required int offset, required int pageSize}) async {
+    String url = '$_baseUrl/countries?limit=$pageSize';
 
-    if (offset != null) {
+    if (offset != 0) {
       url += '&offset=$offset';
     }
 

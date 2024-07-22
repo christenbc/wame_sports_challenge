@@ -15,25 +15,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<FetchCountries>(_onCountriesFetched);
   }
 
+  static const _pageSize = 5;
+
   Future<void> _onCountriesFetched(FetchCountries event, Emitter<HomeState> emit) async {
     if (state.hasReachedMax) return;
+    emit(state.copyWith(status: HomeStatus.loading));
     try {
-      if (state.status == HomeStatus.initial && state.countries.isEmpty) {
-        final countries = await RapidAPI.fetchCountries();
-        return emit(state.copyWith(
-          status: HomeStatus.success,
-          countries: countries,
-          hasReachedMax: false,
-        ));
-      }
-      final countries = await RapidAPI.fetchCountries(offset: state.countries.length);
-      emit(countries.isEmpty
-          ? state.copyWith(hasReachedMax: true)
-          : state.copyWith(
-              status: HomeStatus.success,
-              countries: List.of(state.countries)..addAll(countries),
-              hasReachedMax: false,
-            ));
+      final newCountries = await RapidAPI.fetchCountries(offset: event.pageKey, pageSize: _pageSize);
+      final isLastPage = newCountries.length < _pageSize;
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        pagedCountries: newCountries,
+        hasReachedMax: isLastPage,
+      ));
     } catch (e) {
       emit(state.copyWith(
         status: HomeStatus.failure,
