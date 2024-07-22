@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'country_detail.g.dart';
+
+@JsonSerializable()
 class CountryDetails extends Equatable {
   final String? capital;
   final String? flagImageUri;
@@ -13,19 +17,8 @@ class CountryDetails extends Equatable {
     this.numRegions,
   });
 
-  factory CountryDetails.fromJson(Map<String, dynamic> json) => CountryDetails(
-        capital: json["capital"],
-        flagImageUri: json["flagImageUri"],
-        callingCode: json["callingCode"],
-        numRegions: json["numRegions"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "capital": capital,
-        "flagImageUri": flagImageUri,
-        "callingCode": callingCode,
-        "numRegions": numRegions,
-      };
+  factory CountryDetails.fromJson(Map<String, dynamic> json) => _$CountryDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$CountryDetailsToJson(this);
 
   @override
   List<Object?> get props => [capital, flagImageUri, callingCode, numRegions];
