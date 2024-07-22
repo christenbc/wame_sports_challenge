@@ -1,8 +1,5 @@
 import 'package:bloc/bloc.dart';
-
 import 'package:flutter/material.dart';
-
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wame_sports_challenge_christen/api/api.dart';
 import 'package:wame_sports_challenge_christen/models/models.dart';

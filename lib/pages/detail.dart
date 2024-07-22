@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wame_sports_challenge_christen/blocs/blocs.dart';
+import 'package:wame_sports_challenge_christen/pages/home/widgets/widgets.dart';
 
 class DetailPage extends StatelessWidget {
   /// An page which displays additional information about the country
@@ -36,18 +37,32 @@ class DetailPage extends StatelessWidget {
             final flagUrl = countryDetails?.flagImageUri;
             return Column(
               children: [
-                // TODO: The following 3 next ListTiles could be refactored
-                ListTile(
-                  title: const Text('Capital'),
-                  trailing: Text(countryDetails?.capital ?? ''),
-                ),
-                ListTile(
-                  title: const Text('Number of regions'),
-                  trailing: Text(countryDetails?.numRegions?.toString() ?? ''),
-                ),
-                ListTile(
-                  title: const Text('Calling code'),
-                  trailing: Text(countryDetails?.callingCode ?? ''),
+                Table(
+                  columnWidths: const <int, TableColumnWidth>{
+                    0: IntrinsicColumnWidth(),
+                    1: FlexColumnWidth(),
+                  },
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: <TableRow>[
+                    TableRow(
+                      children: <Widget>[
+                        const PaddedTableCell(child: Text('Capital')),
+                        PaddedTableCell(child: Text(countryDetails?.capital ?? '')),
+                      ],
+                    ),
+                    TableRow(
+                      children: <Widget>[
+                        const PaddedTableCell(child: Text('Number of regions')),
+                        PaddedTableCell(child: Text(countryDetails?.numRegions?.toString() ?? '')),
+                      ],
+                    ),
+                    TableRow(
+                      children: <Widget>[
+                        const PaddedTableCell(child: Text('Calling code')),
+                        PaddedTableCell(child: Text(countryDetails?.callingCode ?? '')),
+                      ],
+                    ),
+                  ],
                 ),
                 if (flagUrl?.isNotEmpty == true)
                   if (flagUrl!.endsWith('svg'))
