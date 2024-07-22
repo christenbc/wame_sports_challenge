@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:wame_sports_challenge_christen/models/models.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class RapidAPI {
   static const String _baseUrl = 'https://wft-geo-db.p.rapidapi.com/v1/geo';
@@ -22,9 +21,14 @@ class RapidAPI {
   static late Dio _dio;
 
   static Future<void> init() async {
-    final appDocDir =
-        kIsWeb ? await getApplicationDocumentsDirectory() : await getApplicationDocumentsDirectory(); // TODO
-    final cacheStore = HiveCacheStore(appDocDir.path);
+    late HiveCacheStore cacheStore;
+    if (kIsWeb) {
+      await Hive.initFlutter(); // Initializes Hive for Flutter Web
+      cacheStore = HiveCacheStore(null);
+    } else {
+      final appDocDir = await getApplicationDocumentsDirectory();
+      cacheStore = HiveCacheStore(appDocDir.path);
+    }
 
     final options = CacheOptions(
       store: cacheStore,
