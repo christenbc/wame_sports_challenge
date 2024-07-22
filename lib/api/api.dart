@@ -1,5 +1,10 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:wame_sports_challenge_christen/models/models.dart';
 
 class RapidAPI {
@@ -14,6 +19,27 @@ class RapidAPI {
     'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com'
   };
 
+  static late Dio _dio;
+
+  static Future<void> init() async {
+    final appDocDir =
+        kIsWeb ? await getApplicationDocumentsDirectory() : await getApplicationDocumentsDirectory(); // TODO
+    final cacheStore = HiveCacheStore(appDocDir.path);
+
+    final options = CacheOptions(
+      store: cacheStore,
+      policy: CachePolicy.request,
+      hitCacheOnErrorExcept: [401, 403],
+      maxStale: const Duration(days: 7),
+    );
+
+    _dio = Dio(BaseOptions(
+      baseUrl: _baseUrl,
+      headers: _headers,
+    ))
+      ..interceptors.add(DioCacheInterceptor(options: options));
+  }
+
   /// Retrieves a batch of countries listed by the API
   static Future<List<Country>> fetchCountries({int? offset}) async {
     const int batchSize = 5;
@@ -23,9 +49,9 @@ class RapidAPI {
       url += '&offset=$offset';
     }
 
-    final response = await http.get(Uri.parse(url), headers: _headers);
+    final response = await _dio.get(url);
 
-    final dynamic rawData = jsonDecode(response.body);
+    final dynamic rawData = response.data;
     if (response.statusCode == 200) {
       final List<dynamic> data = rawData["data"];
       final countries = data.map((countryData) => Country.fromJson(countryData)).toList();
@@ -40,9 +66,9 @@ class RapidAPI {
   static Future<CountryDetails> fetchCountryDetails({required Country country}) async {
     final String url = '$_baseUrl/countries/${country.code}';
 
-    final response = await http.get(Uri.parse(url), headers: _headers);
+    final response = await _dio.get(url);
 
-    final dynamic rawData = jsonDecode(response.body);
+    final dynamic rawData = response.data;
     if (response.statusCode == 200) {
       final dynamic data = rawData["data"];
       final countryDetails = CountryDetails.fromJson(data);
